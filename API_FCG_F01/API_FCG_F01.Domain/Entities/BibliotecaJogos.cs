@@ -8,16 +8,36 @@ namespace API_FCG_F01.Domain.Entities
 {
     public class BibliotecaJogos : EntityBase
     {
-        public Usuario Usuario { get; private set; }
-        public Guid JogoId { get; private set; }
-        public Jogo Jogo { get; private set; }
+        public Guid UsuarioId { get; private set; }
+        public Usuario? Usuario { get; private set; }
+        public ICollection<BibliotecaJogosItem> Itens { get; private set; } = new List<BibliotecaJogosItem>();
+        public bool Ativo { get; private set; }
 
-        public BibliotecaJogos(Usuario usuario, Guid jogoId, Jogo jogo, DateTime dataCompra)
-        {
-            Usuario = usuario;
-            JogoId = jogoId;
-            Jogo = jogo;
-            DataCriacao = dataCompra;
+        private BibliotecaJogos() { }
+
+        public BibliotecaJogos(Guid usuarioId)
+        {            
+            UsuarioId = usuarioId;
+            Ativo = true;
+            DataCriacao = DateTimeOffset.UtcNow;
         }
+
+        public BibliotecaJogosItem AdicionarJogo(Guid jogoId)
+        {
+            var existente = Itens.FirstOrDefault(i => i.JogoId == jogoId);
+            if (existente is not null) return existente;
+            var item = new BibliotecaJogosItem(Id, jogoId);
+            Itens.Add(item);
+            return item;
+        }
+
+        public void RemoverJogo(Guid jogoId)
+        {
+            var existente = Itens.FirstOrDefault(i => i.JogoId == jogoId);
+            if (existente is not null) Itens.Remove(existente);
+        }
+
+        public void Ativar() => Ativo = true;
+        public void Desativar() => Ativo = false;
     }
 }

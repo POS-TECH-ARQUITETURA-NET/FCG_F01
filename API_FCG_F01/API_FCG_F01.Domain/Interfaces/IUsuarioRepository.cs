@@ -1,18 +1,14 @@
 ﻿using API_FCG_F01.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace API_FCG_F01.Domain.Interfaces
+namespace API_FCG_F01.Domain.Interfaces;
+
+public interface IUsuarioRepository
 {
-    public interface IUsuarioRepository
-    {
-        Task<IEnumerable<Usuario>> GetUsuariosAsync();
-        Task<Usuario> GetUsuarioById(int? id);
-        Task<Usuario> CreateAsync(Usuario usuario);
-        Task<Usuario> UpdateAsync(Usuario usuario);
-        Task<bool> DeleteAsync(int id);
-    }
+    Task<Usuario?> GetByIdAsync(Guid id, CancellationToken ct = default);
+    Task<Usuario?> GetByNameAsync(string nome, CancellationToken ct = default);
+    Task<IEnumerable<Usuario>> GetAllAsync(CancellationToken ct = default);
+    Task AddAsync(Usuario entity, CancellationToken ct = default);
+    Task UpdateAsync(Usuario entity, CancellationToken ct = default);
+    Task DeleteAsync(Guid id, CancellationToken ct = default);
+    Task<Usuario?> GetByEmailAsync(string email, CancellationToken ct = default);
 }

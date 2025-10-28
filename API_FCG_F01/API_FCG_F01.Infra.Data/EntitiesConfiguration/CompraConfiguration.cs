@@ -10,8 +10,6 @@ namespace API_FCG_F01.Infra.Data.EntitiesConfiguration
         {
             builder.HasKey(c => c.Id);
 
-            builder.Property(p => p.Id).HasColumnType("INT").ValueGeneratedNever().UseIdentityColumn();
-
             builder.Property(c => c.UsuarioId)
                 .IsRequired();
 

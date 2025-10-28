@@ -1,24 +1,23 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using API_FCG_F01.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using API_FCG_F01.Domain.Entities;
 
-namespace API_FCG_F01.Infra.Data.EntitiesConfiguration
+namespace API_FCG_F01.Infra.Data.EntitiesConfiguration;
+
+public sealed class UsuarioConfiguration : IEntityTypeConfiguration<Usuario>
 {
-    public class UsuarioConfiguration : IEntityTypeConfiguration<Usuario>
+    public void Configure(EntityTypeBuilder<Usuario> builder)
     {
-        public void Configure(EntityTypeBuilder<Usuario> builder)
-        {
-            builder.HasKey(x => x.Id);
-            builder.Property(p=> p.Id).HasColumnType("INT").ValueGeneratedNever().UseIdentityColumn();
-            builder.Property(p => p.Nome).HasMaxLength(100).IsRequired();
-            builder.Property(p => p.Email).HasMaxLength(60);
-            builder.Property(p => p.SenhaHash).IsRequired();
+        builder.HasKey(u => u.Id);
+        builder.Property(u => u.Nome).HasMaxLength(100).IsRequired();
+        builder.Property(u => u.Senha).HasMaxLength(512).IsRequired();
+        builder.Property(u => u.IsAdministrador).IsRequired();
+        builder.Property(u => u.Ativo).IsRequired();
+        builder.Property(u => u.DataCriacao).IsRequired();
 
-            // Configuração do relacionamento com BibliotecaJogos
-            builder.HasMany<BibliotecaJogos>()
-                .WithOne(p => p.Usuario)
-                .HasForeignKey(p => p.Id)
-                .OnDelete(DeleteBehavior.Restrict);
-        }
+        builder.HasOne(u => u.Biblioteca)
+               .WithOne(b => b.Usuario)
+               .HasForeignKey<BibliotecaJogos>(b => b.UsuarioId)
+               .OnDelete(DeleteBehavior.Cascade);
     }
 }
