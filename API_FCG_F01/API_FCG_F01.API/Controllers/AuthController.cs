@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API_FCG_F01.API.Controllers;
 
+/// <summary>
+/// Controller responsável pela autenticação e registro de usuários
+/// </summary>
 [ApiController]
 [Route("api/[controller]")]
 public class AuthController : ControllerBase
@@ -16,6 +19,14 @@ public class AuthController : ControllerBase
         _authService = authService;
     }
 
+    /// <summary>
+    /// Realiza o login do usuário
+    /// </summary>
+    /// <param name="login">Dados de login do usuário</param>
+    /// <param name="ct">Token de cancelamento</param>
+    /// <returns>Token de autenticação e informações do usuário</returns>
+    /// <response code="200">Login realizado com sucesso</response>
+    /// <response code="401">Email ou senha inválidos</response>
     [HttpPost("login")]
     [AllowAnonymous]
     public async Task<ActionResult<AuthResponseDto>> Login([FromBody] LoginDto login, CancellationToken ct)
@@ -31,6 +42,14 @@ public class AuthController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Registra um novo usuário no sistema
+    /// </summary>
+    /// <param name="register">Dados do novo usuário</param>
+    /// <param name="ct">Token de cancelamento</param>
+    /// <returns>Token de autenticação e informações do usuário</returns>
+    /// <response code="200">Usuário registrado com sucesso</response>
+    /// <response code="400">Email já cadastrado ou dados inválidos</response>
     [HttpPost("register")]
     [AllowAnonymous]
     public async Task<ActionResult<AuthResponseDto>> Register([FromBody] RegisterDto register, CancellationToken ct)
