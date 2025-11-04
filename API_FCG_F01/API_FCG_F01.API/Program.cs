@@ -1,3 +1,4 @@
+using API_FCG_F01.API.Middlewares;
 using API_FCG_F01.Infra.IoC;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -72,6 +73,8 @@ if (app.Environment.IsDevelopment())
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "FCG Game Store API v1");
         c.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
     });
+
+    app.ConfigureExceptionHandler();
 }
 
 app.UseHttpsRedirection();

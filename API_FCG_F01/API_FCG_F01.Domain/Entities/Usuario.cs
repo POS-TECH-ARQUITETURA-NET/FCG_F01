@@ -1,5 +1,3 @@
-using API_FCG_F01.Domain.Validation;
-
 namespace API_FCG_F01.Domain.Entities
 {
     public sealed class Usuario : EntityBase
@@ -27,10 +25,6 @@ namespace API_FCG_F01.Domain.Entities
         public void Desativar() => Ativo = false;
         public void AlterarNome(string novoNome) => Nome = novoNome ?? throw new ArgumentNullException(nameof(novoNome));
         public void AlterarEmail(string? novoEmail) => Email = novoEmail;
-        public void AlterarSenhaHash(string novoHash) => Senha = novoHash ?? throw new ArgumentNullException(nameof(novoHash));
-        private void ValidateDomain(string name)
-        {
-            DomainExceptionValidation.When(string.IsNullOrEmpty(name), "Nome invalido. Nome é requerido");
-        }
+        public void AlterarSenhaHash(string novoHash) => Senha = novoHash ?? throw new ArgumentNullException(nameof(novoHash));        
     }
 }
